@@ -1,0 +1,22 @@
+{
+  "name": "gulu",
+  "version": "0.0.1",
+  "description": "这是一个UI框架",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Leonardo-zyh/gulu-UI.git"
+  },
+  "keywords": [
+    "Vue，ui"
+  ],
+  "author": "\"\"\u001b[DLeoz\"",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Leonardo-zyh/gulu-UI/issues"
+  },
+  "homepage": "https://github.com/Leonardo-zyh/gulu-UI#readme"
+}
