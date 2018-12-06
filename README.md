@@ -15,3 +15,8 @@ gulu - 一个Vue UI 的组件
 
 #事件监听
     @click="$emit('click')  @click=""
+
+#单元测试
+* BDD       行为驱动开发
+* TDD       测试驱动开发
+* assert    断言
