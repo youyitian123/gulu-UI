@@ -12,3 +12,6 @@ gulu - 一个Vue UI 的组件
       <slot></slot>
     </button>
     <g-button>按钮</g-button>
+
+#事件监听
+    @click="$emit('click')  @click=""
