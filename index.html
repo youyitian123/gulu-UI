@@ -36,7 +36,7 @@
 
 <body>
         <div id="app">
-                <g-button :loading="loading1" @click="loading1 = !loading1">
+                <g-button icon="loading"  :loading="loading1" @click="loading1 = !loading1">
                   按钮
                 </g-button>
                 <g-button icon="settings" :loading="loading2"
@@ -48,14 +48,15 @@
                   按钮
                 </g-button>
                 <g-button-group>
-                  <g-button icon="left">上一页</g-button>
+                  <g-button icon="left" loading="true">上一页</g-button>
                   <g-button>更多</g-button>
-                  <g-button icon="right" icon-position="right">下一页</g-button>
+                  <g-button icon="right" icon-position="right" loading="true">下一页</g-button>
                 </g-button-group>
+                <g-input></g-input>
               </div>
               <div id="test"></div>
     <script src="./src/app.js"></script>
-    <script src="//at.alicdn.com/t/font_718972_1hhoomwpb69.js"></script>
+    <!-- <script src="//at.alicdn.com/t/font_718972_1hhoomwpb69.js"></script> -->
 </body>
 
 </html>
