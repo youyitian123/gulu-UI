@@ -12,7 +12,7 @@ Vue.component('g-input',Input)
 new Vue({
   el: '#app',
   data: {
-    loading1: false,
+    loading1: true,
     loading2: true,
     loading3: false,
   }
