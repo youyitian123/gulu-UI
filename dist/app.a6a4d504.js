@@ -11570,12 +11570,12 @@ exports.default = _default;
         "div",
         { staticClass: "icon-wrapper icon" },
         [
-          _vm.icon && _vm.loading
+          _vm.icon && !_vm.loading
             ? _c(
                 "g-icon",
                 { staticClass: "icon", attrs: { name: _vm.icon } },
                 [
-                  !_vm.loading
+                  _vm.loading
                     ? _c("g-icon", {
                         staticClass: "loading icon",
                         attrs: { name: "loading" }
@@ -11877,7 +11877,8 @@ new _vue.default({
   data: {
     loading1: true,
     loading2: true,
-    loading3: false
+    loading3: false,
+    message: '王五'
   },
   methods: {
     inputChange: function inputChange(e) {
@@ -11912,7 +11913,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62452" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56299" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

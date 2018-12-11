@@ -15,6 +15,7 @@ new Vue({
     loading1: true,
     loading2: true,
     loading3: false,
+    message:'王五',
   },
   methods:{
     inputChange(e){
