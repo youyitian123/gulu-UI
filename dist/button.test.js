@@ -11570,12 +11570,12 @@ exports.default = _default;
         "div",
         { staticClass: "icon-wrapper icon" },
         [
-          _vm.icon && _vm.loading
+          _vm.icon && !_vm.loading
             ? _c(
                 "g-icon",
                 { staticClass: "icon", attrs: { name: _vm.icon } },
                 [
-                  !_vm.loading
+                  _vm.loading
                     ? _c("g-icon", {
                         staticClass: "loading icon",
                         attrs: { name: "loading" }
@@ -11641,7 +11641,7 @@ _vue.default.config.productionTip = false;
 _vue.default.config.devtools = false;
 describe('Button', function () {
   it('存在.', function () {
-    expect(_button.default).to.be.ok;
+    expect(_button.default).to.exist;
   });
   it('可以设置icon.', function () {
     var Constructor = _vue.default.extend(_button.default);
@@ -11743,7 +11743,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52652" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61261" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

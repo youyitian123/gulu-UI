@@ -1,0 +1,41 @@
+
+.g-icon[data-v-de06e9] {
+  width: 1em;
+  height: 1em;
+}
+.wrapper[data-v-82d97b] {
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+}
+.wrapper[data-v-82d97b] > :not(:last-child) {
+  margin-right: 0.5em;
+}
+.wrapper > input[data-v-82d97b] {
+  height: 32px;
+  border: 1px solid #999;
+  border-radius: 4px;
+  padding: 0 8px;
+  font-size: inherit;
+}
+.wrapper > input[data-v-82d97b]:hover {
+  border-color: #666;
+}
+.wrapper > input[data-v-82d97b]:focus {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+  outline: none;
+}
+.wrapper > input[disabled][data-v-82d97b], .wrapper > input[readonly][data-v-82d97b] {
+  border-color: #bbb;
+  color: #bbb;
+  cursor: not-allowed;
+}
+.wrapper.error > input[data-v-82d97b] {
+  border-color: #F1453D;
+}
+.wrapper .icon-error[data-v-82d97b] {
+  fill: #F1453D;
+}
+.wrapper .errorMessage[data-v-82d97b] {
+  color: #F1453D;
+}
