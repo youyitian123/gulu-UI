@@ -27,7 +27,7 @@ describe('Button', () => {
     const Constructor = Vue.extend(Button)
     const vm = new Constructor({
       propsData: {
-        icon: 'settings',
+        icon: 'loading',
         loading: true
       }
     }).$mount()

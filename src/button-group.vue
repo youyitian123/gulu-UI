@@ -1,5 +1,5 @@
 <template>
-  <div class="g-button-group">
+  <div class="g-button-group ">
     <slot></slot>
   </div>
 </template>

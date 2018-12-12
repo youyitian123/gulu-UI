@@ -11568,7 +11568,7 @@ exports.default = _default;
     [
       _c(
         "div",
-        { staticClass: "icon-wrapper icon" },
+        { staticClass: "icon icon-wrapper" },
         [
           _vm.icon && !_vm.loading
             ? _c(
@@ -11660,7 +11660,7 @@ describe('Button', function () {
 
     var vm = new Constructor({
       propsData: {
-        icon: 'settings',
+        icon: 'loading',
         loading: true
       }
     }).$mount();
