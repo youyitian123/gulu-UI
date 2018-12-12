@@ -42,6 +42,30 @@
 
 <body>
     <div id="app">
+            <g-row>
+                    <g-col>1</g-col>
+                    <g-col>2</g-col>
+                  </g-row>
+                  <g-row>
+                    <g-col>1</g-col>
+                    <g-col>2</g-col>
+                    <g-col>3</g-col>
+                  </g-row>
+                  <g-row>
+                    <g-col>1</g-col>
+                    <g-col>2</g-col>
+                    <g-col>3</g-col>
+                    <g-col>4</g-col>
+                  </g-row>
+                  <g-row>
+                    <g-col span="2">1</g-col>
+                    <g-col span="22">11</g-col>
+                  </g-row>
+                  <g-row>
+                    <g-col span="4">1</g-col>
+                    <g-col span="20">11</g-col>
+                  </g-row>
+                  <hr>
         <div class="box">
             <g-input value="张三" disabled></g-input>
             <g-input value="李四" readonly></g-input>
@@ -66,7 +90,7 @@
             <g-button icon="settings" icon-position="right" :loading="loading3" @click="loading3 = !loading3">
                 按钮
             </g-button>
-            
+
             <g-button-group>
                 <g-button icon="left" >上一页</g-button>
                 <g-button>更多</g-button>
