@@ -32,47 +32,49 @@
         }</style>
     <style>.box {
             margin: 2em;
-            
+           
         }</style>
 <link rel="stylesheet" href="/app.a6a4d504.css"></head>
 
 <body>
     <div id="app">
-            <div style="border: 1px solid black;">
+        <div style="border: 1px solid black;">
             <g-row gutter="20">
-                    <g-col>1</g-col>
-                    <g-col>2</g-col>
-                  </g-row>
-                  <g-row>
-                    <g-col>1</g-col>
-                    <g-col>2</g-col>
-                    <g-col>3</g-col>
-                  </g-row>
-                  <!-- <g-row >
-                    <g-col>1</g-col>
-                    <g-col>2</g-col>
-                    <g-col>3</g-col>
-                    <g-col>4</g-col>
-                  </g-row> -->
-                  <!-- <g-row >
-                    <g-col span="2" >1</g-col>
-                    <g-col span="20" offset="2">11</g-col>
-                  </g-row>
-                  <g-row>
-                    <g-col span="4">1</g-col>
-                    <g-col span="20">11</g-col>
-                  </g-row> -->
-             </div>
+                    <g-col span="24" :ipad="{span:8}" :narrow-pc="{span:4}" :pc="{span:2}" :wide-pc="{span:1}">
+                    1
+                  </g-col>
+                  <g-col span="24" :ipad="{span:16}" :narrow-pc="{span:20}" :pc="{span:22}" :wide-pc="{span:23}">11
+                  </g-col>
+                </g-row>
+                <g-row gutter="20">
+                  <g-col span="4">1</g-col>
+                  <g-col span="20">11</g-col>
+                </g-row>
+                <g-row gutter="20">
+                  <g-col span="4">1</g-col>
+                  <g-col span="18" offset="2">11</g-col>
+                </g-row>
+                <g-row gutter="20">
+                  <g-col span="4">1</g-col>
+                  <g-col span="8" offset="2">11</g-col>
+                  <g-col span="8" offset="2">11</g-col>
+                </g-row>
+                <g-row gutter="20">
+                  <g-col span="4">1</g-col>
+                  <g-col span="4" offset="6">11</g-col>
+                  <g-col span="8" offset="2">11</g-col>
+                </g-row>
+              </div>
         <div class="box">
             <g-input value="张三" disabled=""></g-input>
             <g-input value="李四" readonly=""></g-input>
             <g-input value="王五"></g-input>
         </div>
         <div class="box">
-                <g-input :value="message" v-model="message"></g-input>
-                <p>{{message}}</p>
-                
-            </div>
+            <g-input :value="message" v-model="message"></g-input>
+            <p>{{message}}</p>
+
+        </div>
         <div class="box">
             <g-input value="张" error="姓名不少于两字"></g-input>
         </div>
