@@ -11969,6 +11969,17 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+var validator = function validator(value) {
+  var keys = Object.keys(value);
+  var valid = true;
+  keys.forEach(function (key) {
+    if (!['span', 'offset'].includes(key)) {
+      valid = false;
+    }
+  });
+  return valid;
+};
+
 var _default = {
   name: 'GuluCol',
   props: {
@@ -12008,7 +12019,7 @@ var _default = {
           narrowPc = this.narrowPc,
           pc = this.pc,
           widePc = this.widePc;
-      return [span && "col-".concat(span), offset && "offset-".concat(offset)].concat(_toConsumableArray(phone && ["col-phone-".concat(phone.span)]), _toConsumableArray(ipad && ["col-ipad-".concat(ipad.span)]), _toConsumableArray(narrowPc && ["col-narrow-pc-".concat(narrowPc.span)]), _toConsumableArray(pc && ["col-pc-".concat(pc.span)]), _toConsumableArray(widePc && ["col-wide-pc-".concat(widePc.span)]));
+      return [span && "col-".concat(span), offset && "offset-".concat(offset)].concat(_toConsumableArray(ipad ? ["col-ipad-".concat(ipad.span)] : []), _toConsumableArray(narrowPc ? ["col-narrow-pc-".concat(narrowPc.span)] : []), _toConsumableArray(pc ? ["col-pc-".concat(pc.span)] : []), _toConsumableArray(widePc ? ["col-wide-pc-".concat(widePc.span)] : []));
     },
     colStyle: function colStyle() {
       return {
@@ -12143,7 +12154,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56299" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61202" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
