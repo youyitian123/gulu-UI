@@ -99,4 +99,4 @@ const expect = chai.expect;
      vm.$destroy()
    })
 
- }) d
+ }) 

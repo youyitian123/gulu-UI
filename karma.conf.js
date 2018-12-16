@@ -12,11 +12,6 @@ module.exports = function (config) {
       }
     },
 
-    // autoWatch: false,
-    // singleRun: true,
-    // captureTimeout: 60000,
-    // browserNoActivityTimeout: 360000,
-    // browser: ["Firefox"],
 
     // list of files / patterns to load in the browser
     files: [

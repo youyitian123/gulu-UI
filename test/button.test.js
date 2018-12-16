@@ -28,7 +28,7 @@ describe('Button', () => {
     const vm = new Constructor({
       propsData: {
         icon: 'loading',
-        loading: true
+        loading: false
       }
     }).$mount()
     const useElements = vm.$el.querySelectorAll('use')
