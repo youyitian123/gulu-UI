@@ -10,7 +10,9 @@ import Row from './row'
  import Sider from './sider'
  import Content from './content'
  import Footer from './footer'
-
+ import Toast from './toast'
+ import plugin from './plugin'
+ 
 Vue.component('g-button', Button)
 Vue.component('g-icon', Icon)
 Vue.component('g-button-group', ButtonGroup)
@@ -22,8 +24,10 @@ Vue.component('g-row', Row)
  Vue.component('g-content', Content)
  Vue.component('g-footer', Footer)
  Vue.component('g-sider', Sider)
+ Vue.component('g-toast', Toast)
+ Vue.use(plugin)
  
-new Vue({
+ new Vue({
   el: '#app',
   data: {
     loading1: true,
@@ -35,6 +39,9 @@ new Vue({
     inputChange(e){
       console.log(e.target.value);
       
+    },
+    showToast(){
+      this.$toast('我是 message')
     }
   }
 })
