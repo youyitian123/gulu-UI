@@ -11870,7 +11870,7 @@ var _default = {
     align: {
       type: String,
       validator: function validator(value) {
-        ['left', 'right', 'center'].includes(value);
+        return ['left', 'right', 'center'].indexOf(value) >= 0;
       }
     }
   },
@@ -12415,6 +12415,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -12427,6 +12430,7 @@ exports.default = void 0;
 //
 //
 //
+//构造组件的选项
 var _default = {
   name: 'GuluToast',
   props: {
@@ -12450,12 +12454,24 @@ var _default = {
     enableHtml: {
       type: Boolean,
       default: false
+    },
+    position: {
+      type: String,
+      default: 'top',
+      validator: function validator(value) {
+        return ['top', 'bottom', 'middle'].indexOf(value) >= 0;
+      }
     }
   },
   created: function created() {},
   mounted: function mounted() {
     this.updateStyles();
     this.execAutoClose();
+  },
+  computed: {
+    toastClasses: function toastClasses() {
+      return _defineProperty({}, "position-".concat(this.position), true);
+    }
   },
   methods: {
     updateStyles: function updateStyles() {
@@ -12503,28 +12519,34 @@ exports.default = _default;
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { ref: "wrapper", staticClass: "toast" }, [
-    _c(
-      "div",
-      { staticClass: "message" },
-      [
-        !_vm.enableHtml
-          ? _vm._t("default")
-          : _c("div", {
-              domProps: { innerHTML: _vm._s(_vm.$slots.default[0]) }
-            })
-      ],
-      2
-    ),
-    _vm._v(" "),
-    _c("div", { ref: "line", staticClass: "line" }),
-    _vm._v(" "),
-    _vm.closeButton
-      ? _c("span", { staticClass: "close", on: { click: _vm.onClickClose } }, [
-          _vm._v("\r\n       " + _vm._s(_vm.closeButton.text) + "\r\n     ")
-        ])
-      : _vm._e()
-  ])
+  return _c(
+    "div",
+    { ref: "wrapper", staticClass: "toast", class: _vm.toastClasses },
+    [
+      _c(
+        "div",
+        { staticClass: "message" },
+        [
+          !_vm.enableHtml
+            ? _vm._t("default")
+            : _c("div", {
+                domProps: { innerHTML: _vm._s(_vm.$slots.default[0]) }
+              })
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c("div", { ref: "line", staticClass: "line" }),
+      _vm._v(" "),
+      _vm.closeButton
+        ? _c(
+            "span",
+            { staticClass: "close", on: { click: _vm.onClickClose } },
+            [_vm._v("\n    " + _vm._s(_vm.closeButton.text) + "\n  ")]
+          )
+        : _vm._e()
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -12571,18 +12593,15 @@ var _toast = _interopRequireDefault(require("./toast"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//工程组件
 var _default = {
   install: function install(Vue, options) {
-    //组件create方法
     Vue.prototype.$toast = function (message, toastOptions) {
       var Constructor = Vue.extend(_toast.default);
       var toast = new Constructor({
         propsData: toastOptions
       });
       toast.$slots.default = [message];
-      toast.$mount(); //挂载
-
+      toast.$mount();
       document.body.appendChild(toast.$el);
     };
   }
@@ -12619,8 +12638,6 @@ var _toast = _interopRequireDefault(require("./toast"));
 
 var _plugin = _interopRequireDefault(require("./plugin"));
 
-var _this = void 0;
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _vue.default.component('g-button', _button.default);
@@ -12653,20 +12670,26 @@ var h = _vue.default;
 new _vue.default({
   el: '#app',
   data: {
-    loading1: true,
+    loading1: false,
     loading2: true,
     loading3: false,
-    message: '王五'
+    message: 'hi'
   },
   created: function created() {
-    _this.$toast('文字', {
-      enableHtml: false
+    this.$toast('你的智商需要充值！', {
+      position: 'middle',
+      enableHtml: false,
+      closeButton: {
+        text: '已充值',
+        callback: function callback() {
+          console.log('他说已经充值智商了');
+        }
+      },
+      autoClose: false,
+      autoCloseDelay: 3
     });
   },
   methods: {
-    inputChange: function inputChange(e) {
-      console.log(e.target.value);
-    },
     showToast: function showToast() {}
   }
 });
