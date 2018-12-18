@@ -11319,7 +11319,7 @@ exports.reload = tryWrap(function (id, options) {
   })
 })
 
-},{}],"../src/row.vue":[function(require,module,exports) {
+},{}],"../src/toast.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11331,59 +11331,111 @@ exports.default = void 0;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 var _default = {
-  name: 'GuluRow',
+  name: 'GuluToast',
   props: {
-    gutter: {
-      type: [Number, String]
+    autoClose: {
+      type: Boolean,
+      default: true
     },
-    align: {
-      type: String,
-      validator: function validator(value) {
-        ['left', 'right', 'center'].includes(value);
+    autoCloseDelay: {
+      type: Number,
+      default: 50
+    },
+    closeButton: {
+      type: Object,
+      default: function _default() {
+        return {
+          text: '关闭',
+          callback: undefined
+        };
       }
-    }
-  },
-  computed: {
-    rowStyle: function rowStyle() {
-      var gutter = this.gutter;
-      return {
-        marginLeft: -gutter / 2 + 'px',
-        marginRight: -gutter / 2 + 'px'
-      };
     },
-    rowClass: function rowClass() {
-      var align = this.align;
-      return [align && "align-".concat(align)];
+    enableHtml: {
+      type: Boolean,
+      default: false
     }
   },
+  created: function created() {},
   mounted: function mounted() {
-    var _this = this;
+    this.updateStyles();
+    this.execAutoClose();
+  },
+  methods: {
+    updateStyles: function updateStyles() {
+      var _this = this;
 
-    this.$children.forEach(function (vm) {
-      vm.gutter = _this.gutter;
-    });
+      this.$nextTick(function () {
+        _this.$refs.line.style.height = "".concat(_this.$refs.wrapper.getBoundingClientRect().height, "px");
+      });
+    },
+    execAutoClose: function execAutoClose() {
+      var _this2 = this;
+
+      if (this.autoClose) {
+        setTimeout(function () {
+          _this2.close();
+        }, this.autoCloseDelay * 1000);
+      }
+    },
+    close: function close() {
+      this.$el.remove();
+      this.$destroy();
+    },
+    log: function log() {
+      console.log('测试');
+    },
+    onClickClose: function onClickClose() {
+      this.close();
+
+      if (this.closeButton && typeof this.closeButton.callback === 'function') {
+        this.closeButton.callback(this); //this === toast实例
+      }
+    }
   }
 };
 exports.default = _default;
-        var $a8411d = exports.default || module.exports;
+        var $097a91 = exports.default || module.exports;
       
-      if (typeof $a8411d === 'function') {
-        $a8411d = $a8411d.options;
+      if (typeof $097a91 === 'function') {
+        $097a91 = $097a91.options;
       }
     
         /* template */
-        Object.assign($a8411d, (function () {
+        Object.assign($097a91, (function () {
           var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "row", class: _vm.rowClass, style: _vm.rowStyle },
-    [_vm._t("default")],
-    2
-  )
+  return _c("div", { ref: "wrapper", staticClass: "toast" }, [
+    _c(
+      "div",
+      { staticClass: "message" },
+      [
+        !_vm.enableHtml
+          ? _vm._t("default")
+          : _c("div", {
+              domProps: { innerHTML: _vm._s(_vm.$slots.default[0]) }
+            })
+      ],
+      2
+    ),
+    _vm._v(" "),
+    _c("div", { ref: "line", staticClass: "line" }),
+    _vm._v(" "),
+    _vm.closeButton
+      ? _c("span", { staticClass: "close", on: { click: _vm.onClickClose } }, [
+          _vm._v("\r\n       " + _vm._s(_vm.closeButton.text) + "\r\n     ")
+        ])
+      : _vm._e()
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -11392,7 +11444,7 @@ render._withStripped = true
             render: render,
             staticRenderFns: staticRenderFns,
             _compiled: true,
-            _scopeId: "data-v-a8411d",
+            _scopeId: "data-v-097a91",
             functional: undefined
           };
         })());
@@ -11405,9 +11457,9 @@ render._withStripped = true
         if (api.compatible) {
           module.hot.accept();
           if (!module.hot.data) {
-            api.createRecord('$a8411d', $a8411d);
+            api.createRecord('$097a91', $097a91);
           } else {
-            api.reload('$a8411d', $a8411d);
+            api.reload('$097a91', $097a91);
           }
         }
 
@@ -11418,200 +11470,17 @@ render._withStripped = true
       
       }
     })();
-},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.common.js"}],"../src/col.vue":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-//
-//
-//
-//
-//
-var validator = function validator(value) {
-  var keys = Object.keys(value);
-  var valid = true;
-  keys.forEach(function (key) {
-    if (!['span', 'offset'].includes(key)) {
-      valid = false;
-    }
-  });
-  return valid;
-};
-
-var _default = {
-  name: 'GuluCol',
-  props: {
-    span: {
-      type: [Number, String]
-    },
-    offset: {
-      type: [Number, String]
-    },
-    ipad: {
-      type: Object,
-      validator: validator
-    },
-    narrowPc: {
-      type: Object,
-      validator: validator
-    },
-    pc: {
-      type: Object,
-      validator: validator
-    },
-    widePc: {
-      type: Object,
-      validator: validator
-    }
-  },
-  data: function data() {
-    return {
-      gutter: 0
-    };
-  },
-  computed: {
-    colClass: function colClass() {
-      var span = this.span,
-          offset = this.offset,
-          ipad = this.ipad,
-          narrowPc = this.narrowPc,
-          pc = this.pc,
-          widePc = this.widePc;
-      return [span && "col-".concat(span), offset && "offset-".concat(offset)].concat(_toConsumableArray(ipad ? ["col-ipad-".concat(ipad.span)] : []), _toConsumableArray(narrowPc ? ["col-narrow-pc-".concat(narrowPc.span)] : []), _toConsumableArray(pc ? ["col-pc-".concat(pc.span)] : []), _toConsumableArray(widePc ? ["col-wide-pc-".concat(widePc.span)] : []));
-    },
-    colStyle: function colStyle() {
-      return {
-        paddingLeft: this.gutter / 2 + 'px',
-        paddingRight: this.gutter / 2 + 'px'
-      };
-    }
-  }
-};
-exports.default = _default;
-        var $09b8ef = exports.default || module.exports;
-      
-      if (typeof $09b8ef === 'function') {
-        $09b8ef = $09b8ef.options;
-      }
-    
-        /* template */
-        Object.assign($09b8ef, (function () {
-          var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "col", class: _vm.colClass, style: _vm.colStyle },
-    [_vm._t("default")],
-    2
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-
-          return {
-            render: render,
-            staticRenderFns: staticRenderFns,
-            _compiled: true,
-            _scopeId: "data-v-09b8ef",
-            functional: undefined
-          };
-        })());
-      
-    /* hot reload */
-    (function () {
-      if (module.hot) {
-        var api = require('vue-hot-reload-api');
-        api.install(require('vue'));
-        if (api.compatible) {
-          module.hot.accept();
-          if (!module.hot.data) {
-            api.createRecord('$09b8ef', $09b8ef);
-          } else {
-            api.reload('$09b8ef', $09b8ef);
-          }
-        }
-
-        
-        var reloadCSS = require('_css_loader');
-        module.hot.dispose(reloadCSS);
-        module.hot.accept(reloadCSS);
-      
-      }
-    })();
-},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.common.js"}],"row.test.js":[function(require,module,exports) {
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.common.js"}],"toast.test.js":[function(require,module,exports) {
 "use strict";
 
 var _vue = _interopRequireDefault(require("vue"));
 
-var _row = _interopRequireDefault(require("../src/row"));
-
-var _col = _interopRequireDefault(require("../src/col"));
+var _toast = _interopRequireDefault(require("../src/toast"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var expect = chai.expect;
-_vue.default.config.productionTip = false;
-_vue.default.config.devtools = false;
-describe('Row', function () {
-  it('存在.', function () {
-    expect(_row.default).to.exist;
-  });
-  it('接收 gutter 属性.', function (done) {
-    _vue.default.component('g-row', _row.default);
-
-    _vue.default.component('g-col', _col.default);
-
-    var div = document.createElement('div');
-    document.body.appendChild(div);
-    div.innerHTML = "\n       <g-row gutter=\"20\">\n         <g-col span=\"12\"></g-col>\n         <g-col span=\"12\"></g-col>\n       </g-row>\n     ";
-    var vm = new _vue.default({
-      el: div
-    });
-    setTimeout(function () {
-      var row = vm.$el.querySelector('.row');
-      expect(getComputedStyle(row).marginLeft).to.eq('-10px');
-      expect(getComputedStyle(row).marginRight).to.eq('-10px');
-      var cols = vm.$el.querySelectorAll('.col');
-      expect(getComputedStyle(cols[0]).paddingRight).to.eq('10px');
-      expect(getComputedStyle(cols[1]).paddingLeft).to.eq('10px');
-      done(); //异步加done()调用代码
-
-      vm.$el.remove();
-      vm.$destroy();
-    });
-  });
-  it('接收 align 属性', function () {
-    var div = document.createElement('div');
-    document.body.appendChild(div);
-
-    var Constructor = _vue.default.extend(_row.default);
-
-    var vm = new Constructor({
-      propsData: {
-        align: 'right'
-      }
-    }).$mount(div);
-    var element = vm.$el;
-    expect(getComputedStyle(element).justifyContent).to.equal('flex-end');
-    div.remove();
-    vm.$destroy();
-  });
-});
-},{"vue":"../node_modules/vue/dist/vue.common.js","../src/row":"../src/row.vue","../src/col":"../src/col.vue"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"vue":"../node_modules/vue/dist/vue.common.js","../src/toast":"../src/toast.vue"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -11780,5 +11649,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","row.test.js"], null)
-//# sourceMappingURL=/row.test.map
+},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","toast.test.js"], null)
+//# sourceMappingURL=/toast.test.map

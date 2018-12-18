@@ -26,6 +26,9 @@ Vue.component('g-row', Row)
  Vue.component('g-sider', Sider)
  Vue.component('g-toast', Toast)
  Vue.use(plugin)
+
+ import createElement from 'vue'
+ const h = createElement
  
  new Vue({
   el: '#app',
@@ -35,13 +38,18 @@ Vue.component('g-row', Row)
     loading3: false,
     message:'王五',
   },
+  created:()=>{
+    this.$toast('文字', {
+      enableHtml: false
+    })
+  },
   methods:{
     inputChange(e){
       console.log(e.target.value);
       
     },
     showToast(){
-      this.$toast('我是 message')
+     
     }
   }
 })
