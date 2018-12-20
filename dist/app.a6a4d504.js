@@ -12745,9 +12745,7 @@ exports.default = void 0;
 var _default = {
   name: 'GuluTabsHead',
   inject: ['eventBus'],
-  created: function created() {
-    this.$emit('update:selected', 'tabs-head 抛出的数据');
-  }
+  created: function created() {}
 };
 exports.default = _default;
         var $032ab4 = exports.default || module.exports;
@@ -13216,7 +13214,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50947" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51917" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
