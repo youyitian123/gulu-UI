@@ -11341,17 +11341,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 //构造组件的选项
 var _default = {
   name: 'GuluToast',
   props: {
     autoClose: {
-      type: Boolean,
-      default: true
-    },
-    autoCloseDelay: {
-      type: Number,
-      default: 50
+      type: [Boolean, Number],
+      default: 5,
+      validator: function validator(value) {
+        return value === false || typeof value === 'number';
+      }
     },
     closeButton: {
       type: Object,
@@ -11389,7 +11390,7 @@ var _default = {
       var _this = this;
 
       this.$nextTick(function () {
-        _this.$refs.line.style.height = "".concat(_this.$refs.wrapper.getBoundingClientRect().height, "px");
+        _this.$refs.line.style.height = "".concat(_this.$refs.toast.getBoundingClientRect().height, "px");
       });
     },
     execAutoClose: function execAutoClose() {
@@ -11398,15 +11399,13 @@ var _default = {
       if (this.autoClose) {
         setTimeout(function () {
           _this2.close();
-        }, this.autoCloseDelay * 1000);
+        }, this.autoClose * 1000);
       }
     },
     close: function close() {
       this.$el.remove();
+      this.$emit('close');
       this.$destroy();
-    },
-    log: function log() {
-      console.log('测试');
     },
     onClickClose: function onClickClose() {
       this.close();
@@ -11430,10 +11429,8 @@ exports.default = _default;
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { ref: "wrapper", staticClass: "toast", class: _vm.toastClasses },
-    [
+  return _c("div", { staticClass: "wrapper", class: _vm.toastClasses }, [
+    _c("div", { ref: "toast", staticClass: "toast" }, [
       _c(
         "div",
         { staticClass: "message" },
@@ -11453,11 +11450,15 @@ exports.default = _default;
         ? _c(
             "span",
             { staticClass: "close", on: { click: _vm.onClickClose } },
-            [_vm._v("\n    " + _vm._s(_vm.closeButton.text) + "\n  ")]
+            [
+              _vm._v(
+                "\n\t        " + _vm._s(_vm.closeButton.text) + "\n\t      "
+              )
+            ]
           )
         : _vm._e()
-    ]
-  )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -11502,6 +11503,75 @@ var _toast = _interopRequireDefault(require("../src/toast"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var expect = chai.expect;
+_vue.default.config.productionTip = false;
+_vue.default.config.devtools = false;
+describe('Toast', function () {
+  it('存在.', function () {
+    expect(_toast.default).to.exist;
+  });
+  describe('props', function () {
+    it('接受 autoClose', function (done) {
+      var div = document.createElement('div');
+      document.body.appendChild(div);
+
+      var Constructor = _vue.default.extend(_toast.default);
+
+      var vm = new Constructor({
+        propsData: {
+          autoClose: 1
+        }
+      }).$mount(div);
+      vm.$on('close', function () {
+        expect(document.body.contains(vm.$el)).to.eq(false);
+        done();
+      });
+    });
+    it('接受 closeButton', function (done) {
+      var callback = sinon.fake();
+
+      var Constructor = _vue.default.extend(_toast.default);
+
+      var vm = new Constructor({
+        propsData: {
+          closeButton: {
+            text: '关闭吧',
+            callback: callback
+          }
+        }
+      }).$mount();
+      var closeButton = vm.$el.querySelector('.close');
+      expect(closeButton.textContent.trim()).to.eq('关闭吧');
+      setTimeout(function () {
+        closeButton.click();
+        expect(callback).to.have.been.called;
+        done();
+      }, 200);
+    });
+    it('接受 enableHtml', function () {
+      var Constructor = _vue.default.extend(_toast.default);
+
+      var vm = new Constructor({
+        propsData: {
+          enableHtml: true
+        }
+      });
+      vm.$slots.default = ['<strong id="test">hi</strong>'];
+      vm.$mount();
+      var strong = vm.$el.querySelector('#test');
+      expect(strong).to.exist;
+    });
+    it('接受 position', function () {
+      var Constructor = _vue.default.extend(_toast.default);
+
+      var vm = new Constructor({
+        propsData: {
+          position: 'bottom'
+        }
+      }).$mount();
+      expect(vm.$el.classList.contains('position-bottom')).to.eq(true);
+    });
+  });
+});
 },{"vue":"../node_modules/vue/dist/vue.common.js","../src/toast":"../src/toast.vue"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -11529,7 +11599,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54584" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59656" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
