@@ -959,22 +959,26 @@
   border-left: 1px solid #666;
   margin-left: 16px;
 }.tabs {
-  }
+}
 .tabs-head[data-v-032ab4] {
   display: flex;
   height: 40px;
   justify-content: flex-start;
-  border: 1px solid red;
   position: relative;
+  border-bottom: 1px solid #ddd;
 }
 .tabs-head > .line[data-v-032ab4] {
   position: absolute;
   bottom: 0;
   border-bottom: 1px solid blue;
-  width: 100px;
+  transition: all 350ms;
 }
 .tabs-head > .actions-wrapper[data-v-032ab4] {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1em;
 }.tabs-body {
   }
 .tabs-item[data-v-e22ff1] {
@@ -989,6 +993,10 @@
   color: blue;
   font-weight: bold;
 }
-.tabs-pane.active[data-v-5a4131] {
-  background: aqua;
+.tabs-item.disabled[data-v-e22ff1] {
+  color: grey;
+  cursor: not-allowed;
+}
+.tabs-pane[data-v-5a4131] {
+  padding: 2em;
 }

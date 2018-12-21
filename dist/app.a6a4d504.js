@@ -12664,6 +12664,7 @@ var _default = {
       }
     }
   },
+  // components:{GuluTabsHead,GuluTabsItem},
   data: function data() {
     return {
       eventBus: new _vue.default()
@@ -12676,6 +12677,10 @@ var _default = {
   },
   mounted: function mounted() {
     var _this = this;
+
+    if (this.$children.length === 0) {
+      console && console.warn && console.warn('tabs的子组件应该是tabs-head和tabs-nav，但你没有写子组件');
+    }
 
     this.$children.forEach(function (vm) {
       if (vm.$options.name === 'GuluTabsHead') {
@@ -12755,9 +12760,18 @@ exports.default = void 0;
 var _default = {
   name: 'GuluTabsHead',
   inject: ['eventBus'],
-  created: function created() {
+  mounted: function mounted() {
+    var _this = this;
+
     this.eventBus.$on('update:selected', function (item, vm) {
-      console.log(item);
+      var _vm$$el$getBoundingCl = vm.$el.getBoundingClientRect(),
+          width = _vm$$el$getBoundingCl.width,
+          height = _vm$$el$getBoundingCl.height,
+          top = _vm$$el$getBoundingCl.top,
+          left = _vm$$el$getBoundingCl.left;
+
+      _this.$refs.line.style.width = "".concat(width - 10, "px");
+      _this.$refs.line.style.left = "".concat(left - 10, "px");
     });
   }
 };
@@ -12918,20 +12932,28 @@ var _default = {
   computed: {
     classes: function classes() {
       return {
-        active: this.active
+        active: this.active,
+        disabled: this.disabled
       };
     }
   },
   created: function created() {
     var _this = this;
 
-    this.eventBus.$on('update:selected', function (name) {
-      _this.active = name === _this.name;
-    });
+    if (this.eventBus) {
+      this.eventBus.$on('update:selected', function (name) {
+        _this.active = name === _this.name;
+      });
+    }
   },
   methods: {
-    xxx: function xxx() {
-      this.eventBus.$emit('update:selected', this.name, this);
+    onClick: function onClick() {
+      if (this.disabled) {
+        return;
+      }
+
+      this.eventBus && this.eventBus.$emit('update:selected', this.name, this);
+      this.$emit('click', this);
     }
   }
 };
@@ -12950,7 +12972,12 @@ exports.default = _default;
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "tabs-item", class: _vm.classes, on: { click: _vm.xxx } },
+    {
+      staticClass: "tabs-item",
+      class: _vm.classes,
+      attrs: { "data-name": _vm.name },
+      on: { click: _vm.onClick }
+    },
     [_vm._t("default")],
     2
   )
