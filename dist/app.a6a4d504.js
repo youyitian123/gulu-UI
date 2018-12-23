@@ -12652,10 +12652,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var _default = {
   name: 'GuluTabs',
   props: {
-    selected: {
-      type: String,
-      required: true
-    },
+    // selected: {
+    //   type: String,
+    //   required: true,
+    // },
     direction: {
       type: String,
       default: 'horizontal',
@@ -13127,6 +13127,9 @@ exports.default = void 0;
 //
 //
 //
+//
+//
+//
 var _default = {
   name: "GuluPopover",
   data: function data() {
@@ -13136,7 +13139,33 @@ var _default = {
   },
   methods: {
     xxx: function xxx() {
+      var _this = this;
+
       this.visible = !this.visible;
+
+      if (this.visible === true) {
+        this.$nextTick(function () {
+          document.body.appendChild(_this.$refs.contentWrapper);
+
+          var _this$$refs$triggerWr = _this.$refs.triggerWrapper.getBoundingClientRect(),
+              width = _this$$refs$triggerWr.width,
+              height = _this$$refs$triggerWr.height,
+              top = _this$$refs$triggerWr.top,
+              left = _this$$refs$triggerWr.left;
+
+          _this.$refs.contentWrapper.style.left = left + window.scrollX + 'px';
+          _this.$refs.contentWrapper.style.top = top + window.scrollY + 'px';
+
+          var eventHandler = function eventHandler() {
+            _this.visible = false;
+            document.removeEventListener('click', eventHandler);
+          };
+
+          document.addEventListener('click', eventHandler);
+        });
+      } else {
+        console.log('vm 隐藏 popover');
+      }
     }
   }
 };
@@ -13153,18 +13182,18 @@ exports.default = _default;
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "popover", on: { click: _vm.xxx } },
-    [
-      _vm.visible
-        ? _c("div", { staticClass: "content-wrapper" }, [_vm._t("content")], 2)
-        : _vm._e(),
-      _vm._v(" "),
-      _vm._t("default")
-    ],
-    2
-  )
+  return _c("div", { staticClass: "popover", on: { click: _vm.xxx } }, [
+    _vm.visible
+      ? _c(
+          "div",
+          { ref: "contentWrapper", staticClass: "content-wrapper" },
+          [_vm._t("content")],
+          2
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _c("span", { ref: "triggerWrapper" }, [_vm._t("default")], 2)
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -13294,9 +13323,8 @@ new _vue.default({
   },
   created: function created() {},
   methods: {
-    yyy: function yyy(data) {
+    yyy: function yyy() {
       console.log('yyy');
-      console.log(data);
     },
     showToast1: function showToast1() {
       this.showToast('top');
@@ -13349,7 +13377,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54558" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59110" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

@@ -8,10 +8,10 @@
   export default {
     name: 'GuluTabs',
     props: {
-      selected: {
-        type: String,
-        required: true
-      },
+      // selected: {
+      //   type: String,
+      //   required: true,
+      // },
       direction: {
         type: String,
         default: 'horizontal',

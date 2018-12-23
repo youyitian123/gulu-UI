@@ -53,15 +53,15 @@ new Vue({
     loading2: true,
     loading3: false,
     message: 'hi',
-    selectedTab: 'sports'
+    selectedTab: 'sports',
   },
   created(){
    
   },
   methods: {
-    yyy(data){
+    yyy(){
       console.log('yyy')
-      console.log(data)
+   
     },
     showToast1(){
       this.showToast('top')
