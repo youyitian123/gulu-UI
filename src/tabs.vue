@@ -57,6 +57,5 @@
   }
 </script>
 <style>
-  .tabs {
-  }
+  
 </style>
