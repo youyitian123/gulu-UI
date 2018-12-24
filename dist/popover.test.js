@@ -11007,7 +11007,7 @@ function getOuterHTML(el) {
 
 Vue.compile = compileToFunctions;
 module.exports = Vue;
-},{}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -11038,8 +11038,7 @@ function getBaseURL(url) {
 }
 
 exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-},{}],"../node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+exports.getB,"../node_modules/parcel-b,"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
 var bundle = require('./bundle-url');
 
 function updateLink(link) {
@@ -11074,7 +11073,7 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"../node_modules/vue-hot-reload-api/dist/index.js":[function(require,module,exports) {
+},{"./bundle-url":"../../..,"../node_modules/vue-hot-reload-api/dist/index.js":[function(require,module,e,"../node_modules/vue-hot-reload-api/dist/index.js":[function(require,module,exports) {
 var Vue // late bind
 var version
 var map = Object.create(null)
@@ -11313,13 +11312,10 @@ exports.reload = tryWrap(function (id, options) {
       instance.$vnode.context.$forceUpdate()
     } else {
       console.warn(
-        'Root or manually mounted instance modified. Full reload required.'
-      )
-    }
-  })
-})
+        'Root or manually ,"../src/popover.vue":[function(require,module,exports) {
+"use strict";
 
-},{}],"../src/popover.vue":[function(require,module,exports) {
+Objec,"../src/popover.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11533,7 +11529,10 @@ render._withStripped = true
       
       }
     })();
-},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.common.js"}],"popover.test.js":[function(require,module,exports) {
+},{"_css_loader":"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-,"popover.test.js":[function(require,module,exports) {
+"use strict";
+
+var _vue = _interopRequireDefault(,"popover.test.js":[function(require,module,exports) {
 "use strict";
 
 var _vue = _interopRequireDefault(require("vue"));
@@ -11565,8 +11564,25 @@ describe('Popover', function () {
       done();
     });
   });
-});
-},{"vue":"../node_modules/vue/dist/vue.common.js","../src/popover":"../src/popover.vue"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+  xit('可以设置 trigger', function (done) {
+    _vue.default.component('g-popover', _popover.default);
+
+    var div = document.createElement('div');
+    document.body.appendChild(div);
+    div.innerHTML = "\n\t    <g-popover trigger=\"hover\" ref=\"a\">\n\t      <template slot=\"content\">\n\t      \u5F39\u51FA\u5185\u5BB9\n\t      </template>\n\t      <button>\u70B9\u6211</button>\n\t    </g-popover>\n\t    ";
+    var vm = new _vue.default({
+      el: div
+    });
+    setTimeout(function () {
+      var event = new Event('mouseenter');
+      vm.$el.dispatchEvent(event);
+      vm.$nextTick(function () {
+        var contentWrapper = vm.$refs.a.$refs.contentWrapper;
+        expect(contentWrapper).to.exist;
+        done();
+      });
+    }, 2,"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var gl,"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -11593,7 +11609,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65141" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65204" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
@@ -11735,5 +11751,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","popover.test.js"], null)
+},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","popover.test.js"], null)
 //# sourceMappingURL=/popover.test.map
