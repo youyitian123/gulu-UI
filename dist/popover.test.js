@@ -11007,7 +11007,7 @@ function getOuterHTML(el) {
 
 Vue.compile = compileToFunctions;
 module.exports = Vue;
-},{}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -11039,7 +11039,7 @@ function getBaseURL(url) {
 
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
-},{}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+},{}],"../node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
 var bundle = require('./bundle-url');
 
 function updateLink(link) {
@@ -11074,7 +11074,7 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"../node_modules/vue-hot-reload-api/dist/index.js":[function(require,module,exports) {
+},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"../node_modules/vue-hot-reload-api/dist/index.js":[function(require,module,exports) {
 var Vue // late bind
 var version
 var map = Object.create(null)
@@ -11319,16 +11319,13 @@ exports.reload = tryWrap(function (id, options) {
   })
 })
 
-},{}],"../src/toast.vue":[function(require,module,exports) {
+},{}],"../src/popover.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -11341,124 +11338,167 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//构造组件的选项
 var _default = {
-  name: 'GuluToast',
+  name: "GuluPopover",
   props: {
-    autoClose: {
-      type: [Boolean, Number],
-      default: 5,
-      validator: function validator(value) {
-        return value === false || typeof value === 'number';
-      }
-    },
-    closeButton: {
-      type: Object,
-      default: function _default() {
-        return {
-          text: '关闭',
-          callback: undefined
-        };
-      }
-    },
-    enableHtml: {
-      type: Boolean,
-      default: false
-    },
     position: {
       type: String,
       default: 'top',
       validator: function validator(value) {
-        return ['top', 'bottom', 'middle'].indexOf(value) >= 0;
+        return ['top', 'bottom', 'left', 'right'].indexOf(value) >= 0;
+      }
+    },
+    trigger: {
+      type: String,
+      default: 'click',
+      validator: function validator(value) {
+        return ['click', 'hover'].indexOf(value) >= 0;
       }
     }
   },
-  created: function created() {},
+  data: function data() {
+    return {
+      visible: false
+    };
+  },
   mounted: function mounted() {
-    this.updateStyles();
-    this.execAutoClose();
+    if (this.trigger === 'click') {
+      this.$refs.popover.addEventListener('click', this.onClick);
+    } else {
+      this.$refs.popover.addEventListener('mouseenter', this.open);
+      this.$refs.popover.addEventListener('mouseleave', this.close);
+    }
+  },
+  destroyed: function destroyed() {
+    if (this.trigger === 'click') {
+      this.$refs.popover.removeEventListener('click', this.onClick);
+    } else {
+      this.$refs.popover.removeEventListener('mouseenter', this.open);
+      this.$refs.popover.removeEventListener('mouseleave', this.close);
+    }
   },
   computed: {
-    toastClasses: function toastClasses() {
-      return _defineProperty({}, "position-".concat(this.position), true);
+    openEvent: function openEvent() {
+      if (this.trigger === 'click') {
+        return 'click';
+      } else {
+        return 'mouseenter';
+      }
+    },
+    closeEvent: function closeEvent() {
+      if (this.trigger === 'click') {
+        return 'click';
+      } else {
+        return 'mouseleave';
+      }
     }
   },
   methods: {
-    updateStyles: function updateStyles() {
+    positionContent: function positionContent() {
+      var _this$$refs = this.$refs,
+          contentWrapper = _this$$refs.contentWrapper,
+          triggerWrapper = _this$$refs.triggerWrapper;
+      document.body.appendChild(contentWrapper);
+
+      var _triggerWrapper$getBo = triggerWrapper.getBoundingClientRect(),
+          width = _triggerWrapper$getBo.width,
+          height = _triggerWrapper$getBo.height,
+          top = _triggerWrapper$getBo.top,
+          left = _triggerWrapper$getBo.left;
+
+      var _contentWrapper$getBo = contentWrapper.getBoundingClientRect(),
+          height2 = _contentWrapper$getBo.height;
+
+      var positions = {
+        top: {
+          top: top + window.scrollY,
+          left: left + window.scrollX
+        },
+        bottom: {
+          top: top + height + window.scrollY,
+          left: left + window.scrollX
+        },
+        left: {
+          top: top + window.scrollY + (height - height2) / 2,
+          left: left + window.scrollX
+        },
+        right: {
+          top: top + window.scrollY + (height - height2) / 2,
+          left: left + window.scrollX + width
+        }
+      };
+      contentWrapper.style.left = positions[this.position].left + 'px';
+      contentWrapper.style.top = positions[this.position].top + 'px';
+    },
+    onClickDocument: function onClickDocument(e) {
+      if (this.$refs.popover && (this.$refs.popover === e.target || this.$refs.popover.contains(e.target))) {
+        return;
+      }
+
+      if (this.$refs.contentWrapper && (this.$refs.contentWrapper === e.target || this.$refs.contentWrapper.contains(e.target))) {
+        return;
+      }
+
+      this.close();
+    },
+    open: function open() {
       var _this = this;
 
+      this.visible = true;
       this.$nextTick(function () {
-        _this.$refs.line.style.height = "".concat(_this.$refs.toast.getBoundingClientRect().height, "px");
+        _this.positionContent();
+
+        document.addEventListener('click', _this.onClickDocument);
       });
     },
-    execAutoClose: function execAutoClose() {
-      var _this2 = this;
-
-      if (this.autoClose) {
-        setTimeout(function () {
-          _this2.close();
-        }, this.autoClose * 1000);
-      }
-    },
     close: function close() {
-      this.$el.remove();
-      this.$emit('close');
-      this.$destroy();
+      this.visible = false;
+      document.removeEventListener('click', this.onClickDocument);
     },
-    onClickClose: function onClickClose() {
-      this.close();
-
-      if (this.closeButton && typeof this.closeButton.callback === 'function') {
-        this.closeButton.callback(this); //this === toast实例
+    onClick: function onClick(event) {
+      if (this.$refs.triggerWrapper.contains(event.target)) {
+        if (this.visible === true) {
+          this.close();
+          console.log('click close');
+        } else {
+          this.open();
+        }
       }
     }
   }
 };
 exports.default = _default;
-        var $097a91 = exports.default || module.exports;
+        var $3aca35 = exports.default || module.exports;
       
-      if (typeof $097a91 === 'function') {
-        $097a91 = $097a91.options;
+      if (typeof $3aca35 === 'function') {
+        $3aca35 = $3aca35.options;
       }
     
         /* template */
-        Object.assign($097a91, (function () {
+        Object.assign($3aca35, (function () {
           var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "wrapper", class: _vm.toastClasses }, [
-    _c("div", { ref: "toast", staticClass: "toast" }, [
-      _c(
-        "div",
-        { staticClass: "message" },
-        [
-          !_vm.enableHtml
-            ? _vm._t("default")
-            : _c("div", {
-                domProps: { innerHTML: _vm._s(_vm.$slots.default[0]) }
-              })
-        ],
-        2
-      ),
-      _vm._v(" "),
-      _c("div", { ref: "line", staticClass: "line" }),
-      _vm._v(" "),
-      _vm.closeButton
-        ? _c(
-            "span",
-            { staticClass: "close", on: { click: _vm.onClickClose } },
-            [
-              _vm._v(
-                "\n\t        " + _vm._s(_vm.closeButton.text) + "\n\t      "
-              )
-            ]
-          )
-        : _vm._e()
-    ])
+  return _c("div", { ref: "popover", staticClass: "popover" }, [
+    _vm.visible
+      ? _c(
+          "div",
+          {
+            ref: "contentWrapper",
+            staticClass: "content-wrapper",
+            class: ((_obj = {}),
+            (_obj["position-" + _vm.position] = true),
+            _obj)
+          },
+          [_vm._t("content", null, { close: _vm.close })],
+          2
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _c("span", { ref: "triggerWrapper" }, [_vm._t("default")], 2)
   ])
+  var _obj
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -11467,7 +11507,7 @@ render._withStripped = true
             render: render,
             staticRenderFns: staticRenderFns,
             _compiled: true,
-            _scopeId: "data-v-097a91",
+            _scopeId: "data-v-3aca35",
             functional: undefined
           };
         })());
@@ -11480,9 +11520,9 @@ render._withStripped = true
         if (api.compatible) {
           module.hot.accept();
           if (!module.hot.data) {
-            api.createRecord('$097a91', $097a91);
+            api.createRecord('$3aca35', $3aca35);
           } else {
-            api.reload('$097a91', $097a91);
+            api.reload('$3aca35', $3aca35);
           }
         }
 
@@ -11493,86 +11533,40 @@ render._withStripped = true
       
       }
     })();
-},{"_css_loader":"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.common.js"}],"toast.test.js":[function(require,module,exports) {
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"../node_modules/vue-hot-reload-api/dist/index.js","vue":"../node_modules/vue/dist/vue.common.js"}],"popover.test.js":[function(require,module,exports) {
 "use strict";
 
 var _vue = _interopRequireDefault(require("vue"));
 
-var _toast = _interopRequireDefault(require("../src/toast"));
+var _popover = _interopRequireDefault(require("../src/popover"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var expect = chai.expect;
 _vue.default.config.productionTip = false;
 _vue.default.config.devtools = false;
-describe('Toast', function () {
+describe('Popover', function () {
   it('存在.', function () {
-    expect(_toast.default).to.exist;
+    expect(_popover.default).to.exist;
   });
-  describe('props', function () {
-    it('接受 autoClose', function (done) {
-      var div = document.createElement('div');
-      document.body.appendChild(div);
+  it('可以设置position.', function (done) {
+    _vue.default.component('g-popover', _popover.default);
 
-      var Constructor = _vue.default.extend(_toast.default);
-
-      var vm = new Constructor({
-        propsData: {
-          autoClose: 1
-        }
-      }).$mount(div);
-      vm.$on('close', function () {
-        expect(document.body.contains(vm.$el)).to.eq(false);
-        done();
-      });
+    var div = document.createElement('div');
+    document.body.appendChild(div);
+    div.innerHTML = "\n\t    <g-popover position=\"bottom\" ref=\"a\">\n\t      <template slot=\"content\">\n\t      \u5F39\u51FA\u5185\u5BB9\n\t      </template>\n\t      <button>\u70B9\u6211</button>\n\t    </g-popover>\n\t    ";
+    var vm = new _vue.default({
+      el: div
     });
-    it('接受 closeButton', function (done) {
-      var callback = sinon.fake();
-
-      var Constructor = _vue.default.extend(_toast.default);
-
-      var vm = new Constructor({
-        propsData: {
-          closeButton: {
-            text: '关闭吧',
-            callback: callback
-          }
-        }
-      }).$mount();
-      var closeButton = vm.$el.querySelector('.close');
-      expect(closeButton.textContent.trim()).to.eq('关闭吧');
-      setTimeout(function () {
-        closeButton.click();
-        expect(callback).to.have.been.called;
-        done();
-      }, 200);
-    });
-    it('接受 enableHtml', function () {
-      var Constructor = _vue.default.extend(_toast.default);
-
-      var vm = new Constructor({
-        propsData: {
-          enableHtml: true
-        }
-      });
-      vm.$slots.default = ['<strong id="test">hi</strong>'];
-      vm.$mount();
-      var strong = vm.$el.querySelector('#test');
-      expect(strong).to.exist;
-    });
-    it('接受 position', function () {
-      var Constructor = _vue.default.extend(_toast.default);
-
-      var vm = new Constructor({
-        propsData: {
-          position: 'bottom'
-        }
-      }).$mount();
-      expect(vm.$el.classList.contains('position-bottom')).to.eq(true);
+    vm.$el.querySelector('button').click();
+    vm.$nextTick(function () {
+      var contentWrapper = vm.$refs.a.$refs.contentWrapper;
+      expect(contentWrapper.classList.contains('position-bottom')).to.be.true;
+      done();
     });
   });
 });
-},{"vue":"../node_modules/vue/dist/vue.common.js","../src/toast":"../src/toast.vue"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"vue":"../node_modules/vue/dist/vue.common.js","../src/popover":"../src/popover.vue"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -11599,7 +11593,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65204" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65141" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
@@ -11741,5 +11735,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","toast.test.js"], null)
-//# sourceMappingURL=/toast.test.map
+},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","popover.test.js"], null)
+//# sourceMappingURL=/popover.test.map

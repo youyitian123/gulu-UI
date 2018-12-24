@@ -11351,7 +11351,6 @@ var _default = {
       }
     }
   },
-  // components:{GuluTabsHead,GuluTabsItem},
   data: function data() {
     return {
       eventBus: new _vue.default()
@@ -11362,22 +11361,29 @@ var _default = {
       eventBus: this.eventBus
     };
   },
-  mounted: function mounted() {
-    var _this = this;
-
-    if (this.$children.length === 0) {
-      console && console.warn && console.warn('tabs的子组件应该是tabs-head和tabs-nav，但你没有写子组件');
-    }
-
-    this.$children.forEach(function (vm) {
-      if (vm.$options.name === 'GuluTabsHead') {
-        vm.$children.forEach(function (childVm) {
-          if (childVm.$options.name === 'GuluTabsItem' && childVm.name === _this.selected) {
-            _this.eventBus.$emit('update:selected', _this.selected, childVm);
-          }
-        });
+  methods: {
+    checkChildren: function checkChildren() {
+      if (this.$children.length === 0) {
+        console && console.warn && console.warn('tabs的子组件应该是tabs-head和tabs-nav，但你没有写子组件');
       }
-    });
+    },
+    selectTab: function selectTab() {
+      var _this = this;
+
+      this.$children.forEach(function (vm) {
+        if (vm.$options.name === 'GuluTabsHead') {
+          vm.$children.forEach(function (childVm) {
+            if (childVm.$options.name === 'GuluTabsItem' && childVm.name === _this.selected) {
+              _this.eventBus.$emit('update:selected', _this.selected, childVm);
+            }
+          });
+        }
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.checkChildren();
+    this.selectTab();
   }
 };
 exports.default = _default;
@@ -11885,7 +11891,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63386" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65204" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

@@ -12011,6 +12011,27 @@ var _default = {
       gutter: 0
     };
   },
+  methods: {
+    createClasses: function createClasses(obj) {
+      var str = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+      if (!obj) {
+        return [];
+      }
+
+      var array = [];
+
+      if (obj.span) {
+        array.push("col-".concat(str).concat(obj.span));
+      }
+
+      if (obj.offset) {
+        array.push("offset-".concat(str).concat(obj.offset));
+      }
+
+      return array;
+    }
+  },
   computed: {
     colClass: function colClass() {
       var span = this.span,
@@ -12019,7 +12040,11 @@ var _default = {
           narrowPc = this.narrowPc,
           pc = this.pc,
           widePc = this.widePc;
-      return [span && "col-".concat(span), offset && "offset-".concat(offset)].concat(_toConsumableArray(ipad ? ["col-ipad-".concat(ipad.span)] : []), _toConsumableArray(narrowPc ? ["col-narrow-pc-".concat(narrowPc.span)] : []), _toConsumableArray(pc ? ["col-pc-".concat(pc.span)] : []), _toConsumableArray(widePc ? ["col-wide-pc-".concat(widePc.span)] : []));
+      var createClasses = this.createClasses;
+      return _toConsumableArray(createClasses({
+        span: span,
+        offset: offset
+      })).concat(_toConsumableArray(createClasses(ipad, 'ipad-')), _toConsumableArray(createClasses(narrowPc, 'narrow-pc-')), _toConsumableArray(createClasses(pc, 'pc-')), _toConsumableArray(createClasses(widePc, 'wide-pc-')));
     },
     colStyle: function colStyle() {
       return {
@@ -13138,6 +13163,22 @@ exports.default = void 0;
 //
 var _default = {
   name: "GuluPopover",
+  props: {
+    position: {
+      type: String,
+      default: 'top',
+      validator: function validator(value) {
+        return ['top', 'bottom', 'left', 'right'].indexOf(value) >= 0;
+      }
+    },
+    trigger: {
+      type: String,
+      default: 'click',
+      validator: function validator(value) {
+        return ['click', 'hover'].indexOf(value) >= 0;
+      }
+    }
+  },
   data: function data() {
     return {
       visible: false
@@ -13172,22 +13213,6 @@ var _default = {
         return 'click';
       } else {
         return 'mouseleave';
-      }
-    }
-  },
-  props: {
-    position: {
-      type: String,
-      default: 'top',
-      validator: function validator(value) {
-        return ['top', 'bottom', 'left', 'right'].indexOf(value) >= 0;
-      }
-    },
-    trigger: {
-      type: String,
-      default: 'click',
-      validator: function validator(value) {
-        return ['click', 'hover'].indexOf(value) >= 0;
       }
     }
   },
@@ -13233,6 +13258,10 @@ var _default = {
         return;
       }
 
+      if (this.$refs.contentWrapper && (this.$refs.contentWrapper === e.target || this.$refs.contentWrapper.contains(e.target))) {
+        return;
+      }
+
       this.close();
     },
     open: function open() {
@@ -13253,6 +13282,7 @@ var _default = {
       if (this.$refs.triggerWrapper.contains(event.target)) {
         if (this.visible === true) {
           this.close();
+          console.log('click close');
         } else {
           this.open();
         }
@@ -13284,7 +13314,7 @@ exports.default = _default;
             (_obj["position-" + _vm.position] = true),
             _obj)
           },
-          [_vm._t("content")],
+          [_vm._t("content", null, { close: _vm.close })],
           2
         )
       : _vm._e(),
