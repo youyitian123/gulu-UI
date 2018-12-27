@@ -13380,6 +13380,9 @@ var _default = {
     single: {
       type: Boolean,
       default: false
+    },
+    selected: {
+      type: Array
     }
   },
   data: function data() {
@@ -13388,11 +13391,36 @@ var _default = {
     };
   },
   provide: function provide() {
-    if (this.single) {
-      return {
-        eventBus: this.eventBus
-      };
-    }
+    return {
+      eventBus: this.eventBus
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.eventBus.$emit('update:selected', this.selected);
+    this.eventBus.$on('update:addSelected', function (name) {
+      var selectedCopy = JSON.parse(JSON.stringify(_this.selected));
+
+      if (_this.single) {
+        selectedCopy = [name];
+      } else {
+        selectedCopy.push(name);
+      }
+
+      _this.eventBus.$emit('update:selected', selectedCopy);
+
+      _this.$emit('update:selected', selectedCopy);
+    });
+    this.eventBus.$on('update:removeSelected', function (name) {
+      var selectedCopy = JSON.parse(JSON.stringify(_this.selected));
+      var index = selectedCopy.indexOf(name);
+      selectedCopy.splice(index, 1);
+
+      _this.eventBus.$emit('update:selected', selectedCopy);
+
+      _this.$emit('update:selected', selectedCopy);
+    });
   }
 };
 exports.default = _default;
@@ -13467,6 +13495,10 @@ var _default = {
     title: {
       type: String,
       required: true
+    },
+    name: {
+      type: String,
+      required: true
     }
   },
   data: function data() {
@@ -13474,18 +13506,25 @@ var _default = {
       open: false
     };
   },
-  mounted: function mounted() {},
+  inject: ['eventBus'],
+  mounted: function mounted() {
+    var _this = this;
+
+    this.eventBus && this.eventBus.$on('update:selected', function (names) {
+      if (names.indexOf(_this.name) >= 0) {
+        _this.open = true;
+      } else {
+        _this.open = false;
+      }
+    });
+  },
   methods: {
     toggle: function toggle() {
       if (this.open) {
-        this.open = false;
+        this.eventBus && this.eventBus.$emit('update:removeSelected', this.name);
       } else {
-        this.open = true;
-        this.eventBus && this.eventBus.$emit('update:selected', this);
+        this.eventBus && this.eventBus.$emit('update:addSelected', this.name);
       }
-    },
-    close: function close() {
-      this.open = false;
     }
   }
 };
@@ -13504,7 +13543,7 @@ exports.default = _default;
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "collapseItem" }, [
     _c("div", { staticClass: "title", on: { click: _vm.toggle } }, [
-      _vm._v("\n      " + _vm._s(_vm.title) + "\n    ")
+      _vm._v("\n    " + _vm._s(_vm.title) + "\n  ")
     ]),
     _vm._v(" "),
     _vm.open
@@ -13644,7 +13683,7 @@ new _vue.default({
     loading2: true,
     loading3: false,
     message: 'hi',
-    selectedTab: 'sports'
+    selectedTab: ['2', '1']
   },
   created: function created() {},
   methods: {
