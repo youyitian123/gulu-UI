@@ -1,5 +1,5 @@
 module.exports = {
-
+    base: '/gulu-UI/',
     title: 'UI',
     description: '一个好用的UI框架',
     themeConfig: {
@@ -25,7 +25,7 @@ module.exports = {
 	          '/components/grid',
 	          '/components/layout',
 	          '/components/toast',
-	          '/components/tabs',
+	          '/components/popover',
 	        ] 
         },
   

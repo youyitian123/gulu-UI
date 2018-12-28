@@ -1,14 +1,14 @@
 <template>
-  <div class="wrapper" :class="toastClasses">
-	    <div class="toast" ref="toast">
-	      <div class="message">
-	        <slot v-if="!enableHtml"></slot>
-	        <div v-else v-html="$slots.default[0]"></div>
-	      </div>
-	      <div class="line" ref="line"></div>
-	      <span class="close" v-if="closeButton" @click="onClickClose">
-	        {{closeButton.text}}
-	      </span>
+  <div class="gulu-toast" :class="toastClasses">
+    <div class="toast" ref="toast">
+      <div class="message">
+        <slot v-if="!enableHtml"></slot>
+        <div v-else v-html="$slots.default[0]"></div>
+      </div>
+      <div class="line" ref="line"></div>
+      <span class="close" v-if="closeButton" @click="onClickClose">
+        {{closeButton.text}}
+      </span>
     </div>
   </div>
 </template>
@@ -19,10 +19,10 @@
     props: {
       autoClose: {
         type: [Boolean, Number],
-	        default: 5,
-	        validator (value) {
-	          return value === false || typeof value === 'number';
-	        }
+        default: 5,
+        validator (value) {
+          return value === false || typeof value === 'number';
+        }
       },
       closeButton: {
         type: Object,
@@ -43,8 +43,6 @@
           return ['top', 'bottom', 'middle'].indexOf(value) >= 0
         }
       }
-    },
-    created () {
     },
     mounted () {
       this.updateStyles()
@@ -68,7 +66,7 @@
         if (this.autoClose) {
           setTimeout(() => {
             this.close()
-          }, this.autoClose  * 1000)
+          }, this.autoClose * 1000)
         }
       },
       close () {
@@ -101,7 +99,7 @@
     0% {opacity: 0; }
     100% {opacity: 1;}
   }
-  .wrapper {
+  .gulu-toast {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
