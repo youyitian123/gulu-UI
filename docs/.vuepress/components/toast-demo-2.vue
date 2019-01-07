@@ -42,7 +42,8 @@
           </style>
           <div>
             <g-button @click="onClickButton">上方弹出</g-button>
-          </div>
+          </div>          
+          <script>
           methods: {
             onClickButton () {
               this.$toast('你知道我在等你吗？', {
@@ -55,6 +56,7 @@
               })
             }
           },
+          <\/script>
       `.replace(/^ {8}/gm, '').trim()
       }
     },

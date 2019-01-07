@@ -209,7 +209,7 @@
                     <div class="demoCol">2</div>
                 </g-col>
                 </g-row>
-	      `.replace(/\t+| +/g, '').trim()
+	      `.replace(/^ {8}/gm, '').trim()
 	      }
 	    }
 	  }

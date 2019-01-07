@@ -20,8 +20,8 @@ import Icon from  './icon'
       props: {
       icon: {},
       loading: {
-        // type: Boolean,
-        // default: false
+         type: Boolean,
+         default: false
       },
       iconPosition: {
         type: String,
