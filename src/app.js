@@ -20,6 +20,7 @@ import Tabs from './tabs'
 import Popover from './popover'
 import Collapse from './collapse'
 import CollapseItem from './collapse-item'
+import TodoMVC from './todo-mvc'
 
 Vue.component('g-button', Button)
 Vue.component('g-icon', Icon)
@@ -42,6 +43,7 @@ Vue.component('g-tabs', Tabs)
 Vue.component('g-popover', Popover)
 Vue.component('g-collapse', Collapse)
 Vue.component('g-collapse-item', CollapseItem)
+Vue.component('g-todo',TodoMVC)
 
 
 import createElement from 'vue'
